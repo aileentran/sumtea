@@ -4,7 +4,7 @@ from flask import (Flask, render_template, redirect, request, flash, session, js
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import db, connect_to_db, User
+from model import db, connect_to_db, User, association_table, Suggestion, Tea, Note
 
 import os
 

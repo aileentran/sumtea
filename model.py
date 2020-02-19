@@ -11,7 +11,7 @@ class User(db.Model):
     email = db.Column(db.String(75), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
 
-    # TODO: CHECK SUGGESTIONS RELATIONSHIP!
+    # relationships(~children)
     suggestions = db.relationship("Suggestion", backref="User")
 
     def __repr__(self):
@@ -31,7 +31,7 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 # association table between suggestions and teas: many to many relationship
-association_table = db.Table("association", db.Model.metadata,
+association_table = db.Table("associations", db.Model.metadata,
 	# suggestions
     db.Column("sugg_id", db.Integer, db.ForeignKey("suggestions.sugg_id")),
     # teas
@@ -45,12 +45,14 @@ class Suggestion(db.Model):
 
     sugg_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 
-    # relationships
+    # foreign keys(~parent)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+
+    # relationships(~children)
     tea = db.relationship("Tea", 
                         secondary=association_table)
 
-    # foreign keys
-    user_id = db.relationship("User", backref="Suggestion")
+
 
 class Tea(db.Model):
     """Tea info!"""
@@ -77,12 +79,12 @@ class Note(db.Model):
     body_temp = db.Column(db.Integer)
     tasting_notes = db.Column(db.String(128))
     comments = db.Column(db.String(500))
-    
-    # relationships
 
-    # foreign keys
-    user_id = db.relationship("User", backref="Note")
-    sugg_id = db.relationship("Suggestion", backref="Note")
+    # foreign keys(~parent)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    sugg_id = db.Column(db.Integer, db.ForeignKey("suggestions.sugg_id"))
+    
+    # relationships(~children)
 
 
 # Creating environment to make tables
