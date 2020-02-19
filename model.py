@@ -1,5 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 
+# allows us to hash/encrypt passwords
+from werkzeug.security import generate_password_hash, check_password_hash
+
 db = SQLAlchemy()
 
 class User(db.Model):
