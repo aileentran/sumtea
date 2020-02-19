@@ -53,6 +53,8 @@ class Suggestion(db.Model):
 
 	# 	return f"<Suggestion sugg_id={self.sugg_id} user_id={self.user_id} note_id={self.note_id} tea_id={self.tea_id}>"
 
+	# TODO: RESEARCH ASSOCIATION TABLES!
+
 	def add_tea(self, tea_id):
 		"""Adding tea to suggestions list."""
 		tea_sugg=TeaSuggestions(tea_id=tea_id, sugg_id=self.sugg_id)

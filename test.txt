@@ -1,0 +1,35 @@
+
+u=User(email="b@email.com")
+u.set_password("123")
+db.session.add(u)
+db.session.commit()
+
+
+sugg=Suggestion(user_id=1)
+db.session.add(sugg)
+db.session.commit()
+
+
+NOTE: while loop to create teas and adding even nums to ONE suggestion
+i = 0 
+while i <= 10:
+	tea=Tea(tea_name=f"{i}")
+	db.session.add(tea)
+	db.session.commit()
+
+	if i % 2 == 0:
+		sugg.add_tea(tea.tea_id)
+	i += 1
+
+
+
+
+
+
+
+
+
+matcha=Tea(tea_type="", tea_name="", caffeine="", alert="")
+matcha=Tea(tea_type="", tea_name="", caffeine="", alert="")
+matcha=Tea(tea_type="", tea_name="", caffeine="", alert="")
+matcha=Tea(tea_type="", tea_name="", caffeine="", alert="")
