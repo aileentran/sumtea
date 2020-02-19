@@ -15,7 +15,7 @@ class User(db.Model):
 	password_hash=db.Column(db.String(128), nullable=False)
 
 	# TODO: suggestion backreference
-	# suggestions=
+	suggestions=db.relationship("Suggestion", backref="user")
 
 	def __repr__(self):
 		"""User info when return object!"""
@@ -33,10 +33,64 @@ class User(db.Model):
 
 		return check_password_hash(self.password_hash, password)
 
-# class Suggestion(db.Model):
-# 	"""Tea suggestions given to user based on questions answered."""
+class Suggestion(db.Model):
+	"""Tea suggestions given to user based on questions answered."""
 
-# 	__tablename__="suggestions"
+	__tablename__="suggestions"
+
+	sugg_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
+
+	# relationships (children?)
+	teas=db.relationship("Tea", back_populates="suggestion")
+	notes=db.relationship("Note", backref="suggestion")
+
+	# foreign keys (parents?)
+	user_id=db.Column(db.Integer, db.ForeignKey("users.user_id"))
+	note_id=db.Column(db.Integer, db.ForeignKey("notes.note_id"))
+	tea_id=db.Column(db.Integer, db.ForeignKey("teas.tea_id"))
+	
+
+	def __repr__(self):
+		"""Suggestion info when return object!"""
+
+		return f"<Suggestion sugg_id={self.sugg_id} user_id={self.user_id} note_id={self.note_id} tea_id={self.tea_id}>"
+
+class Note(db.Model):
+	"""User's notes on teas they've tried."""
+
+	__tablename__="notes"
+
+	note_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
+	alert=db.Column(db.String(500))
+	body_temp=db.Column(db.String(500))
+	tasting_notes=db.Column(db.String(500))
+	rating=db.Column(db.Integer)
+	comments=db.Column(db.String(500))
+
+	# relationships (chilren)
+
+	# foreign keys (parent)
+	sugg_id=db.Column(db.Integer, db.ForeignKey("suggestions.sugg_id"))
+
+class Tea(db.Model):
+	"""Tea info!"""
+
+	__tablename__="teas"
+	
+	tea_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
+	tea_type=db.Column(db.String(128))
+	tea_name=db.Column(db.String(128))
+	caffeine=db.Column(db.Boolean())
+	alert=db.Column(db.String(500))
+	body_temp=db.Column(db.String(500))
+	energy=db.Column(db.String(500))
+	tasting_notes=db.Column(db.String(500))
+
+	# relationships (chilren)
+
+	# foreign keys (parent)
+	sugg_id=db.Column(db.Integer, db.ForeignKey("suggestions.sugg_id"))
+
 
 
 
