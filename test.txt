@@ -14,11 +14,13 @@ NOTE: while loop to create teas and adding even nums to ONE suggestion
 i = 0 
 while i <= 10:
 	tea=Tea(tea_name=f"{i}")
-	db.session.add(tea)
-	db.session.commit()
 
 	if i % 2 == 0:
 		sugg.add_tea(tea.tea_id)
+
+	db.session.add(tea)
+	db.session.commit()
+	
 	i += 1
 
 
