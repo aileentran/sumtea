@@ -41,19 +41,38 @@ class Suggestion(db.Model):
 	sugg_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
 
 	# relationships (children?)
-	teas=db.relationship("Tea", backref="suggestion")
 	notes=db.relationship("Note", backref="suggestion")
 
 	# foreign keys (parents?)
 	user_id=db.Column(db.Integer, db.ForeignKey("users.user_id"))
-	note_id=db.Column(db.Integer, db.ForeignKey("notes.note_id"))
-	tea_id=db.Column(db.Integer, db.ForeignKey("teas.tea_id"))
+	# note_id=db.Column(db.Integer, db.ForeignKey("notes.note_id"))
 	
 
-	def __repr__(self):
-		"""Suggestion info when return object!"""
+	# def __repr__(self):
+	# 	"""Suggestion info when return object!"""
 
-		return f"<Suggestion sugg_id={self.sugg_id} user_id={self.user_id} note_id={self.note_id} tea_id={self.tea_id}>"
+	# 	return f"<Suggestion sugg_id={self.sugg_id} user_id={self.user_id} note_id={self.note_id} tea_id={self.tea_id}>"
+
+	def add_tea(self, tea_id):
+		"""Adding tea to suggestions list."""
+		tea_sugg=TeaSuggestions(tea_id=tea_id, sugg_id=self.sugg_id)
+		db.session.add(tea_sugg)
+		db.session.commit()
+
+
+class TeaSuggestions(db.Model):
+	"""Multiple teas per suggestion."""
+
+	__tablename__="tea_suggestions"
+
+	teasugg_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
+
+	# relationships
+
+	# foreign key
+	sugg_id=db.Column(db.Integer, db.ForeignKey("suggestions.sugg_id"))
+	tea_id=db.Column(db.Integer, db.ForeignKey("teas.tea_id"))
+
 
 class Note(db.Model):
 	"""User's notes on teas they've tried."""
@@ -80,7 +99,7 @@ class Tea(db.Model):
 	tea_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
 	tea_type=db.Column(db.String(128))
 	tea_name=db.Column(db.String(128))
-	caffeine=db.Column(db.Boolean())
+	caffeine=db.Column(db.Boolean)
 	alert=db.Column(db.String(500))
 	body_temp=db.Column(db.String(500))
 	energy=db.Column(db.String(500))
@@ -90,24 +109,6 @@ class Tea(db.Model):
 
 	# foreign keys (parent)
 	sugg_id=db.Column(db.Integer, db.ForeignKey("suggestions.sugg_id"))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
