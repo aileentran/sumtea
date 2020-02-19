@@ -15,3 +15,43 @@ app.secret_key= os.urandom(32)
 
 # Throws up error if have undefined error in Jinja2
 app.jinja_env.undefined = StrictUndefined
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    app.debug = True
+    app.jinja_env.auto_reload = app.debug
+    connect_to_db(app)
+    print("Connected to DB.")
+
+    DebugToolbarExtension(app)
+    app.run(host="0.0.0.0", port=5000,debug=False)
