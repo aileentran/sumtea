@@ -41,7 +41,7 @@ class Suggestion(db.Model):
 	sugg_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
 
 	# relationships (children?)
-	teas=db.relationship("Tea", back_populates="suggestion")
+	teas=db.relationship("Tea", backref="suggestion")
 	notes=db.relationship("Note", backref="suggestion")
 
 	# foreign keys (parents?)
@@ -76,7 +76,7 @@ class Tea(db.Model):
 	"""Tea info!"""
 
 	__tablename__="teas"
-	
+
 	tea_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
 	tea_type=db.Column(db.String(128))
 	tea_name=db.Column(db.String(128))
