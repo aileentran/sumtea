@@ -31,11 +31,11 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 # association table between suggestions and teas: many to many relationship
-association_table = Table("association", db.Model.metadata,
+association_table = db.Table("association", db.Model.metadata,
 	# suggestions
-    Column("sugg_id", Integer, ForeignKey("suggestions.sugg_id")),
+    db.Column("sugg_id", db.Integer, db.ForeignKey("suggestions.sugg_id")),
     # teas
-    Column("tea_id", Integer, ForeignKey("teas.tea_id"))
+    db.Column("tea_id", db.Integer, db.ForeignKey("teas.tea_id"))
 )
 
 class Suggestion(db.Model):
