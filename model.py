@@ -49,12 +49,19 @@ class Suggestion(db.Model):
     sugg_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 
     # foreign keys(~parent)
+    tea_id = db.Column(db.Integer, db.ForeignKey("teas.tea_id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     # relationships(~children)
     tea = db.relationship("Tea", 
                         secondary=association_table)
 
+    def add_tea(self, tea_id):
+        """Add tea to suggestions."""
+        
+        tea_sugg = Suggestion(tea_id=tea_id, sugg_id=self.sugg_id)
+        db.session.add(tea_sugg)
+        db.session.commit()
 
 
 class Tea(db.Model):

@@ -9,6 +9,10 @@ sugg=Suggestion(user_id=1)
 db.session.add(sugg)
 db.session.commit()
 
+tea_sugg = Suggestion(tea_id=1, sugg_id=sugg.sugg_id)
+db.session.add(tea_sugg)
+db.session.commit()
+
 
 NOTE: while loop to create teas and adding even nums to ONE suggestion
 i = 0 
@@ -20,7 +24,7 @@ while i <= 10:
 
 	db.session.add(tea)
 	db.session.commit()
-	
+
 	i += 1
 
 
@@ -31,7 +35,7 @@ while i <= 10:
 
 
 
-matcha=Tea(tea_type="", tea_name="", caffeine="", alert="")
+matcha=Tea(tea_type="", tea_name="", caffeine="")
 matcha=Tea(tea_type="", tea_name="", caffeine="", alert="")
 matcha=Tea(tea_type="", tea_name="", caffeine="", alert="")
 matcha=Tea(tea_type="", tea_name="", caffeine="", alert="")
